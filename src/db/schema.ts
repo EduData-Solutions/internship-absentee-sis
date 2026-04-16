@@ -45,6 +45,7 @@ export const attendance = pgTable(
       .notNull(),
     date: date("date").notNull(),
     status: attendanceStatusEnum("status").default("present").notNull(),
+    notes: text("notes"),
   },
   (table) => ({
     // Prevents duplicate entries for the same student on the same day/class
