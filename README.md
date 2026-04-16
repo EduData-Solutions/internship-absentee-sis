@@ -26,20 +26,25 @@ pnpm dev
 
 ## Database Steps
 
-### Step A: Generate and Push
+### Step A: Start Database
+```bash
+docker-compose up
+```
+
+### Step B: Generate and Push
 
 ```bash
 pnpm run db:generate
 pnpm run db:push
 ```
 
-### Step B: Seed the Data
+### Step C: Seed the Data
 
 ```bash
 pnpm run db:seed
 ```
 
-### Step C: Verify
+### Step D: Verify
 
 ```bash
 pnpm run db:studio
