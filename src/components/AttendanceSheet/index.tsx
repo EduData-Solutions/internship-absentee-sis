@@ -15,22 +15,27 @@ interface Props {
   date: string;
 }
 
+type AttendanceStatus = "present" | "absent" | "tardy" | "excused";
+
+type AttendanceRecord = {
+  studentId: number;
+  classId: number;
+  status: AttendanceStatus;
+};
+
 export default function AttendanceSheet({ students, classId, date }: Props) {
   const [isPending, startTransition] = useTransition();
 
   // Local state to track changes before saving
-  const [records, setRecords] = useState(
+  const [records, setRecords] = useState<AttendanceRecord[]>(
     students.map((s) => ({
       studentId: s.id,
       classId,
-      status: "present" as const,
+      status: "present",
     })),
   );
 
-  const updateStatus = (
-    studentId: number,
-    status: "present" | "absent" | "tardy" | "excused",
-  ) => {
+  const updateStatus = (studentId: number, status: AttendanceStatus) => {
     setRecords((prev) =>
       prev.map((r) => (r.studentId === studentId ? { ...r, status } : r)),
     );
@@ -71,7 +76,7 @@ export default function AttendanceSheet({ students, classId, date }: Props) {
               </td>
               <td className="py-4">
                 <div className="flex gap-2">
-                  {["present", "absent", "tardy", "excused"].map((s) => {
+                  {(["present", "absent", "tardy", "excused"] as const).map((s) => {
                     const currentStatus = records.find(
                       (r) => r.studentId === student.id,
                     )?.status;
@@ -80,7 +85,7 @@ export default function AttendanceSheet({ students, classId, date }: Props) {
                     return (
                       <button
                         key={s}
-                        onClick={() => updateStatus(student.id, s as any)}
+                        onClick={() => updateStatus(student.id, s)}
                         className={`rounded px-3 py-1 text-xs font-semibold capitalize transition-colors ${
                           isActive
                             ? "bg-blue-600 text-white"

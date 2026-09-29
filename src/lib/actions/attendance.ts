@@ -2,7 +2,6 @@
 
 import { db } from "@/db";
 import { attendance } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 // Type for a single student's status update
